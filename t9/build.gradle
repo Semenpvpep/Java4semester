@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = 'Main'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // Никаких дополнительных зависимостей не требуется
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'Main'
+        )
+    }
+}
+
+task buildDocker(type: Exec) {
+    commandLine 'docker', 'build', '-t', 'docker-example', '.'
+}
+
+task runDocker(type: Exec, dependsOn: buildDocker) {
+    commandLine 'docker', 'run', '--rm', 'docker-example'
+}
